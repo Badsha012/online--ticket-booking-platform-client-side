@@ -31,14 +31,14 @@ const Footer = () => {
           {/* Social Icons */}
           <div className="flex gap-4 mt-5 text-2xl">
             <a
-              href="https://facebook.com"
+              href="https://web.facebook.com/md.badsha.sheikh.423531/"
               target="_blank"
               className="hover:text-blue-400 transition"
             >
               <FaFacebook />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/md-badsha-sheikh/"
               target="_blank"
               className="hover:text-blue-400 transition"
             >
@@ -97,8 +97,8 @@ const Footer = () => {
             Contact Info
           </h2>
 
-          <p className="text-gray-300 mb-2">📧 support@ticketbooking.com</p>
-          <p className="text-gray-300 mb-2">📞 +880 1234 567 890</p>
+          <p className="text-gray-300 mb-2">📧 mdbadshasheikh2022@gmail.com</p>
+          <p className="text-gray-300 mb-2">📞 +880 1998414834</p>
           <p className="text-gray-300">📍 Dhaka, Bangladesh</p>
         </div>
       </div>
