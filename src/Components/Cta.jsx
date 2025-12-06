@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const Cta = () => {
   return (
-    <section className="relative py-24 px-4 md:px-0 bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 rounded-2xl text-center text-white overflow-hidden shadow-lg">
+    <section className="relative py-24 px-4 md:px-0 bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 rounded-xl text-center text-white overflow-hidden shadow-lg">
       
       {/* Animated Background Glow */}
       <div className="absolute -top-20 -left-20 w-72 h-72 bg-blue-500 rounded-full opacity-20 blur-3xl animate-blob"></div>
