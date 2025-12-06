@@ -80,3 +80,13 @@
   animation: typing 3s steps(40, end), blinkCaret 0.75s step-end infinite;
 }
 
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: inline-flex;
+  animation: marquee 10s linear infinite;
+}

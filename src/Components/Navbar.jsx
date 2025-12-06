@@ -66,7 +66,7 @@ const Navbar = () => {
             className="w-10 h-10 rounded-full"
             alt=""
           />
-          <NavLink to="/" className="text-xl  font-semibold text-blue-500">
+          <NavLink to="/" className="md:text-2xl text-xl  font-semibold text-blue-500">
             Online Ticket Booking
           </NavLink>
         </div>
