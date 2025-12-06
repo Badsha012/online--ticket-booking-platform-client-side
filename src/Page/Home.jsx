@@ -8,6 +8,8 @@ import PremiumOffers from '../Components/PremiumOffers';
 import AppDownloadSection from '../Components/AppDownloadSection';
 import AvailableServices from '../Components/AvailableServices';
 import Cta from '../Components/Cta';
+import FAQ from '../Components/FAQ';
+import Partners from '../Components/Partners';
 
 
 const Home = () => {
@@ -21,7 +23,10 @@ const Home = () => {
            
             <AppDownloadSection></AppDownloadSection>
             <PopularRoutes></PopularRoutes>
+            
             <WhyChooseUs></WhyChooseUs>
+            <Partners></Partners>
+            <FAQ></FAQ>
             <CustomerSay></CustomerSay>
             <Cta></Cta>
         </div>
