@@ -1,37 +1,60 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-// Replace these URLs with your partner/company logos
 const partners = [
-  { name: "BusCompany", logo: "https://i.ibb.co/4p3qkWm/buscompany.png" },
-  { name: "TrainCompany", logo: "https://i.ibb.co/0GpY7Dv/train.png" },
-  { name: "PaymentProvider", logo: "https://i.ibb.co/x6v6JpT/airplane.png" },
-  { name: "LaunchCo", logo: "https://i.ibb.co/3h0y7pz/launch.png" },
-  { name: "AnotherPartner", logo: "https://i.ibb.co/4S2r8V1/bus.png" },
+  { name: "BusCompany", logo: "https://i.ibb.co.com/GfNj3355/sfondo-gamma.jpg" },
+  { name: "TrainCompany", logo: "https://i.ibb.co.com/9mQ58QgQ/images-23.jpg" },
+  { name: "PaymentProvider", logo: "https://i.ibb.co.com/8hSNzmn/images-24.jpg" },
+  { name: "LaunchCo", logo: "https://i.ibb.co.com/svJtwBkd/images-25.jpg" },
+  { name: "AnotherPartner", logo: "https://i.ibb.co.com/VW7pqFkS/istockphoto-185982719-612x612.jpg" },
 ];
 
 const Partners = () => {
   return (
-    <section className="py-16 bg-gray-50">
-      <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-900 mb-12">
-        Trusted By
-      </h2>
+    <section className="py-20 bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 transition">
+      <div className="max-w-7xl mx-auto px-4 text-center">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-blue-900 dark:text-white mb-12">
+          Trusted By Leading Partners
+        </h2>
 
-      <div className="max-w-6xl mx-auto px-4 flex flex-wrap justify-center items-center gap-8">
-        {partners.map((partner, index) => (
+        {/* Infinite Marquee Auto Scroll */}
+        <div className="overflow-hidden w-full relative">
           <motion.div
-            key={index}
-            className="bg-white rounded-xl p-4 shadow-md flex items-center justify-center w-32 h-20"
-            whileHover={{ scale: 1.1, y: -5 }}
-            transition={{ type: "spring", stiffness: 200 }}
+            className="flex items-center gap-12"
+            animate={{ x: ["0%", "-100%"] }}
+            transition={{
+              repeat: Infinity,
+              duration: 18,
+              ease: "linear",
+            }}
           >
-            <img
-              src={partner.logo}
-              alt={partner.name}
-              className="max-h-12 object-contain"
-            />
+            {[...partners, ...partners].map((partner, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ scale: 1.12 }}
+                className="relative backdrop-blur-xl 
+                bg-white/40 dark:bg-white/10 
+                border border-white/30 dark:border-white/20 
+                shadow-xl p-5 rounded-2xl 
+                w-40 h-24 flex items-center justify-center 
+                hover:shadow-2xl transition-all duration-300
+                hover:border-blue-500 hover:shadow-blue-300/40"
+              >
+                {/* Tooltip */}
+                <span className="absolute -top-8 opacity-0 hover:opacity-100 
+                bg-black text-white text-xs px-2 py-1 rounded-md transition">
+                  {partner.name}
+                </span>
+
+                <img
+                  src={partner.logo}
+                  alt={partner.name}
+                  className="max-h-14 w-auto object-contain rounded-full shadow-md"
+                />
+              </motion.div>
+            ))}
           </motion.div>
-        ))}
+        </div>
       </div>
     </section>
   );

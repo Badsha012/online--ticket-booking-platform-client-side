@@ -1,5 +1,6 @@
 import React from "react";
 import { Ticket } from "lucide-react"; // Icon library
+import { motion } from "framer-motion";
 
 const offers = [
   {
@@ -21,27 +22,28 @@ const offers = [
 
 const PremiumOffers = () => {
   return (
-    <div className="py-16 bg-gray-50 overflow-hidden">
-      <h2 className="text-3xl font-bold text-center text-blue-900 mb-10">
+    <section className="py-20 bg-gray-50 dark:bg-gray-900 overflow-hidden">
+      <h2 className="text-3xl md:text-4xl font-extrabold text-center text-blue-900 dark:text-white mb-12">
         Latest Offers & Discounts
       </h2>
 
       {/* MARQUEE SCROLL */}
-      <div className="overflow-x-hidden">
+      <div className="overflow-x-hidden relative">
         <div className="flex gap-6 animate-marquee hover:animate-none">
           {offers.concat(offers).map((offer, index) => (
-            <div
+            <motion.div
               key={index}
-              className={`min-w-[250px] md:min-w-[300px] rounded-2xl p-6 text-white shadow-xl flex flex-col gap-3 items-start justify-center bg-gradient-to-r ${offer.bg}`}
+              whileHover={{ scale: 1.05 }}
+              className={`min-w-[250px] md:min-w-[300px] rounded-2xl p-6 text-white shadow-2xl flex flex-col gap-3 items-start justify-center bg-gradient-to-r ${offer.bg} cursor-pointer border border-white/20 backdrop-blur-sm transition`}
             >
-              <div className="flex items-center gap-2 text-lg font-bold">
+              <div className="flex items-center gap-2 text-lg md:text-xl font-bold">
                 <Ticket size={24} /> {offer.title}
               </div>
-              <p className="text-sm">{offer.description}</p>
+              <p className="text-sm md:text-base">{offer.description}</p>
               <button className="bg-white text-blue-900 px-4 py-2 rounded-lg font-semibold hover:bg-gray-200 transition">
                 Grab Now
               </button>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -59,7 +61,7 @@ const PremiumOffers = () => {
           }
         `}
       </style>
-    </div>
+    </section>
   );
 };
 
