@@ -51,7 +51,7 @@ const Navbar = () => {
       {/* CENTER MENU */}
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 text-white text-lg font-medium">
-          {["/", "/tickets", "/about", "/contact"].map((path, index) => {
+          {["/", "/ticket", "/about", "/contact"].map((path, index) => {
             const labels = ["Home", "Tickets", "About", "Contact"];
             return (
               <li key={index}>

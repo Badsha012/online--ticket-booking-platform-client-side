@@ -10,6 +10,8 @@ import AvailableServices from '../Components/AvailableServices';
 import Cta from '../Components/Cta';
 import FAQ from '../Components/FAQ';
 import Partners from '../Components/Partners';
+import AdvertisementSection from '../Components/AdvertisementSection';
+import RecentlyAddedTickets from '../Components/RecentlyAddedTickets';
 
 
 const Home = () => {
@@ -17,9 +19,13 @@ const Home = () => {
         <div className=''>
             <Hero></Hero>
             <Works></Works>
+           
             <AvailableServices></AvailableServices>
+             <AdvertisementSection></AdvertisementSection>
+             
        
             <PremiumOffers></PremiumOffers>
+            <RecentlyAddedTickets></RecentlyAddedTickets>
            
             <AppDownloadSection></AppDownloadSection>
             <PopularRoutes></PopularRoutes>

@@ -37,7 +37,7 @@ const testimonials = [
   {
     name: "Emily Brown",
     role: "Adventure Seeker",
-    image: "https://i.ibb.co.com/WWXddpBP/EB-headshot-hires.jpg",
+    image: "https://i.ibb.co.com/YFH4sydV/Emily-Brown.webp",
     message: "I found amazing travel deals here. Highly recommended!",
   },
 ];

@@ -61,7 +61,7 @@ const rawFaqs = [
     answer:
       "Yes — during checkout provide passenger details for each ticket. Save frequent traveller info for speed.",
     icon: "BookOpen",
-    illustration: "https://i.ibb.co.com/WWXddpBP/EB-headshot-hires.jpg",
+    illustration: "https://i.ibb.co.com/YFH4sydV/Emily-Brown.webp",
   },
 ];
 
