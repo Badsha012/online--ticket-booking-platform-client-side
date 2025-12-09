@@ -25,7 +25,7 @@ const Cta = () => {
         </p>
 
         <motion.a
-          href="/tickets"
+          href="/login"
           whileHover={{ scale: 1.07 }}
           whileTap={{ scale: 0.95 }}
           className="inline-block bg-white text-blue-900 px-12 py-4 rounded-2xl font-semibold shadow-lg hover:shadow-2xl transition-all duration-300"

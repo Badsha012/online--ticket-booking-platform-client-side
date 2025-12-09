@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router";
 
 const About = () => {
   return (
@@ -158,13 +159,13 @@ const About = () => {
         <p className="mb-6 text-blue-200 animate-fadeIn delay-200">
           Join thousands of users who trust our platform daily.
         </p>
-        <a
-          href="/tickets"
+        <Link
+          to="/login"
           className="inline-block bg-white text-blue-700 px-10 py-4 rounded-xl font-semibold
             hover:bg-blue-100 hover:scale-105 transition duration-300"
         >
           Book Now
-        </a>
+        </Link>
       </section>
     </div>
   );
