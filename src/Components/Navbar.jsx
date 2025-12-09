@@ -82,11 +82,28 @@ const Navbar = () => {
               </li>
             );
           })}
+
+            {/* ⭐ My Booking — Only visible when user is logged in */}
+    {user && (
+      <li>
+        <NavLink
+          to="/book/:id"
+          className={({ isActive }) =>
+            isActive
+              ? "text-blue-400 font-bold underline underline-offset-4"
+              : "hover:text-blue-300"
+          }
+        >
+          My Booking
+        </NavLink>
+      </li>
+    )}
+
           {/* Profile link only for logged-in user */}
           {user && (
             <li>
               <NavLink
-                to="/dashbord/profile"
+                to="/dashboard/profile"
                 className={({ isActive }) =>
                   isActive
                     ? "text-blue-400 font-bold underline underline-offset-4"
@@ -97,6 +114,7 @@ const Navbar = () => {
               </NavLink>
             </li>
           )}
+         
         </ul>
       </div>
 

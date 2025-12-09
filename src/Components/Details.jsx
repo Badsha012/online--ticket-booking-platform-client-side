@@ -1,214 +1,136 @@
-import { useContext, useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { AuthContext } from "../Layout/AuthProvider";
+import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
 
-export default function Details() {
+export default function TicketDetailsPage() {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
-
   const [ticket, setTicket] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const [countdown, setCountdown] = useState("");
-  const [ setIsExpired] = useState(false);
-
-  const [showModal, setShowModal] = useState(false);
-  const [qty, setQty] = useState(1);
-  const [error, setError] = useState("");
-
-  // ✅ Load Ticket
   useEffect(() => {
     fetch(`https://online-ticket-booking-server-side.vercel.app/tickets/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setTicket(data);
-        setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(() => setError("Failed to load ticket details"))
+      .finally(() => setLoading(false));
   }, [id]);
 
-  // ✅ Countdown Timer (only for display)
-  useEffect(() => {
-    if (!ticket) return;
-
-    const interval = setInterval(() => {
-      const now = new Date();
-      const departure = new Date(
-        `${ticket.departureDate} ${ticket.departureTime}`
-      );
-      const diff = departure - now;
-
-      if (diff <= 0) {
-        setCountdown("Time Expired");
-        setIsExpired(true);
-        clearInterval(interval);
-        return;
-      }
-
-      const hours = Math.floor(diff / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-      setCountdown(`${hours}h ${minutes}m ${seconds}s`);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [ticket]);
-
-  // ✅ Handle Booking
-  const handleBooking = () => {
-    setError("");
-
-    if (qty < 1) {
-      setError("Quantity must be at least 1");
-      return;
-    }
-
-    if (qty > ticket.quantity) {
-      setError("Quantity can't be more than available seats");
-      return;
-    }
-
-    const bookingData = {
-      ticketId: ticket._id,
-      title: ticket.title,
-      transport: ticket.transport,
-      price: ticket.price,
-      quantity: qty,
-      userEmail: user?.email,
-      status: "Pending",
-      bookingTime: new Date(),
-    };
-
-    fetch("https://online-ticket-booking-server-side.vercel.app/bookings", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(bookingData),
-    })
-      .then((res) => res.json())
-      .then(() => {
-        setShowModal(false);
-        navigate("/my-bookings");
-      });
-  };
-
-  // ✅ Loading State
-  if (loading) {
+  if (loading)
     return (
-      <h2 className="text-center mt-16 text-xl font-semibold text-blue-600 animate-pulse">
-        Loading...
-      </h2>
+      <div className="min-h-[60vh] flex items-center justify-center text-white">
+        Loading ticket details...
+      </div>
     );
-  }
 
-  // ✅ Not Found
-  if (!ticket) {
+  if (error)
     return (
-      <h2 className="text-center mt-16 text-xl font-semibold text-red-600">
-        Ticket not found
-      </h2>
+      <div className="min-h-[60vh] flex items-center justify-center text-red-400">
+        {error}
+      </div>
     );
-  }
+
+  if (!ticket)
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center text-gray-300">
+        Ticket Not Found
+      </div>
+    );
 
   return (
-    <div className="min-h-screen bg-blue-50 py-10 px-4">
-      {/* Header */}
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-blue-900">Ticket Details</h1>
-        <p className="text-gray-600 mt-1">
-          View your journey details before booking
-        </p>
-      </div>
+    <section className="bg-gradient-to-br from-[#020617] to-[#0f172a] min-h-screen py-16 px-6 text-white">
+      <div className="max-w-5xl mx-auto">
 
-      {/* Ticket Card */}
-      <div className="max-w-3xl mx-auto bg-white shadow-xl rounded-2xl overflow-hidden">
-        <img src={ticket.image} className="w-full h-72 object-cover" alt="" />
+        {/* Back Button */}
+        <Link
+          to="/tickets"
+          className="inline-block mb-8 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300"
+        >
+          ← Back to Tickets
+        </Link>
 
-        <div className="p-8 space-y-5">
-          <h2 className="text-3xl font-bold text-blue-800">{ticket.title}</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
 
-          {/* ✅ Countdown visible but not blocking */}
-          <p className="text-lg font-semibold text-red-600">
-            Departure Countdown: {countdown}
-          </p>
-
-          {/* Journey Information */}
-          <div className="bg-gray-100 p-5 rounded-xl border space-y-2">
-            <p>
-              <b>Departure Date:</b> {ticket.departureDate}
-            </p>
-            <p>
-              <b>Departure Time:</b> {ticket.departureTime}
-            </p>
-            <p>
-              <b>Transport:</b> {ticket.transport}
-            </p>
-            <p>
-              <b>Available Seats:</b> {ticket.quantity}
-            </p>
-            <p>
-              <b>Fare:</b> ৳{ticket.price}
-            </p>
-          </div>
-
-          {/* ✅ Book Now Button (Testing Mode) */}
-          <button
-            onClick={() => {
-              if (!user) return navigate("/login");
-              setShowModal(true);
-            }}
-            disabled={ticket.quantity === 0} // ✅ only sold out disables
-            className={`w-full px-6 py-3 font-bold text-lg rounded-lg 
-              ${
-                ticket.quantity === 0
-                  ? "bg-gray-400 cursor-not-allowed text-white"
-                  : "bg-blue-600 hover:bg-blue-700 text-white"
-              }`}
-          >
-            {ticket.quantity === 0 ? "Sold Out" : "Book Now"}
-          </button>
-        </div>
-      </div>
-
-      {/* ✅ Booking Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4">
-          <div className="bg-white p-6 rounded-xl w-full max-w-md space-y-4 shadow-lg">
-            <h2 className="text-xl font-bold text-blue-800">Book Ticket</h2>
-
-            <label className="block text-gray-700 font-medium">
-              Enter Quantity:
-            </label>
-
-            <input
-              type="number"
-              min="1"
-              value={qty}
-              onChange={(e) => setQty(Number(e.target.value))}
-              className="w-full border p-2 rounded-lg"
+          {/* LEFT: Image */}
+          <div className="relative w-full h-80 rounded-2xl overflow-hidden shadow-xl">
+            <img
+              src={ticket.image}
+              alt={ticket.title}
+              className="w-full h-full object-cover"
             />
 
-            {error && <p className="text-red-600">{error}</p>}
+            <span className="absolute top-4 right-4 bg-blue-600 px-4 py-2 rounded-full shadow text-white">
+              ৳ {ticket.price}
+            </span>
+          </div>
 
-            <div className="flex gap-3 justify-end">
-              <button
-                className="px-4 py-2 bg-gray-300 rounded-lg"
-                onClick={() => setShowModal(false)}
-              >
-                Cancel
-              </button>
+          {/* RIGHT: Details */}
+          <div>
+            <h1 className="text-4xl font-bold mb-3">{ticket.title}</h1>
 
-              <button
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg"
-                onClick={handleBooking}
-              >
-                Confirm Booking
-              </button>
+            <p className="text-gray-400 text-sm mb-5">
+              {ticket.from} → {ticket.to}
+            </p>
+
+            <div className="flex flex-wrap gap-3 mb-5">
+              <span className="px-3 py-1 bg-white/10 rounded-full text-sm">
+                🚍 {ticket.transportType}
+              </span>
+              <span className="px-3 py-1 bg-white/10 rounded-full text-sm">
+                🎟 {ticket.quantity} Seats
+              </span>
+              {ticket.category && (
+                <span className="px-3 py-1 bg-white/10 rounded-full text-sm">
+                  📦 {ticket.category}
+                </span>
+              )}
             </div>
+
+            {/* Departure Date */}
+            <div className="mb-4">
+              <p className="text-gray-400 text-sm">Departure Date</p>
+              <p className="text-lg font-semibold">
+                {ticket.departureDate || "Flexible"}
+              </p>
+            </div>
+
+            {/* Perks */}
+            {ticket.perks?.length > 0 && (
+              <div className="mb-6">
+                <p className="text-gray-400 text-sm mb-1">Included Perks</p>
+                <ul className="space-y-1">
+                  {ticket.perks.map((perk, index) => (
+                    <li key={index} className="text-gray-300">
+                      ⭐ {perk}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Description */}
+            {ticket.description && (
+              <div className="mb-6">
+                <p className="text-gray-400 text-sm mb-1">Description</p>
+                <p className="text-gray-300">{ticket.description}</p>
+              </div>
+            )}
+
+            {/* CTA Buttons */}
+            <Link to={`/book/${ticket._id}`} className="flex gap-4 mt-8">
+              <button className="px-6 py-3 rounded-lg bg-blue-600 hover:bg-blue-700 shadow font-semibold">
+                Book Now
+              </button>
+
+              <button className="px-6 py-3 rounded-lg bg-white/10 hover:bg-white/20 shadow font-semibold">
+                Add to Wishlist
+              </button>
+            </Link>
           </div>
         </div>
-      )}
-    </div>
+
+      </div>
+    </section>
   );
 }

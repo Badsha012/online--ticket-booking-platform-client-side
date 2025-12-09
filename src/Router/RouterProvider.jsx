@@ -1,11 +1,13 @@
 
 import DashboardLayout from "../Components/Dashboard/DashboardLayout";
 import UserProfile from "../Components/Dashboard/UserProfile";
+
 import PrivateRoute from "../Components/PrivateRoute";
 import About from "../Page/About";
 import Contact from "../Page/Contact";
 import Home from "../Page/Home";
 import Login from "../Page/Login";
+import MyBookingPage from "../Page/MyBookingPage";
 import Register from "../Page/Register";
 import TicketDetails from "../Page/TicketDetails";
 
@@ -58,6 +60,15 @@ const router = createBrowserRouter([
    
     
   ),
+},
+{
+  path:"/book/:id",
+  element:(
+    <PrivateRoute>
+      <MyBookingPage></MyBookingPage>
+    </PrivateRoute>
+  )
+
 },
 
 {
