@@ -87,7 +87,7 @@ const Navbar = () => {
     {user && (
       <li>
         <NavLink
-          to="/book/:id"
+          to="/my-bookings"
           className={({ isActive }) =>
             isActive
               ? "text-blue-400 font-bold underline underline-offset-4"
