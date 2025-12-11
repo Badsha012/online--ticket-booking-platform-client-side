@@ -5,7 +5,7 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 
 const Hero = () => {
-  const slides = [ // ✅ নাম ঠিক করা হলো
+  const slides = [
     {
       image: "https://i.ibb.co/Cs2Gprrs/istockphoto-1393093359-612x612.jpg",
       heading: "Book Your Tickets Easily",
@@ -34,29 +34,30 @@ const Hero = () => {
         modules={[Autoplay, Pagination, EffectFade]}
         autoplay={{ delay: 5000, disableOnInteraction: false }}
         pagination={{ clickable: true }}
-        className="h-[75vh]" // ✅ height 75% of viewport
+        className="h-[60vh] sm:h-[70vh] md:h-[75vh]"
       >
         {slides.map((slide, i) => (
           <SwiperSlide key={i}>
             <div
               className="relative h-full bg-cover bg-center flex items-center justify-center"
-              style={{
-                backgroundImage: `url(${slide.image})`,
-              }}
+              style={{ backgroundImage: `url(${slide.image})` }}
             >
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-black/60 sm:bg-black/50"></div>
 
-              {/* Centered Text Box 75% width */}
-              <div className="relative z-10 text-white px-6 md:px-0 max-w-[75%] mx-auto text-center">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 drop-shadow-2xl animate-float">
+              {/* Text Box */}
+              <div className="relative z-10 text-white px-4 sm:px-6 md:px-0 max-w-[90%] sm:max-w-[80%] md:max-w-[75%] mx-auto text-center">
+                <h1 className="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-3 drop-shadow-2xl animate-float">
                   {slide.heading}
                 </h1>
-                <p className="text-sm sm:text-base md:text-lg mb-6 opacity-90 drop-shadow-lg animate-fadeIn">
+                <p className="text-xs sm:text-sm md:text-lg mb-5 opacity-90 drop-shadow-lg animate-fadeIn leading-relaxed">
                   {slide.text}
                 </p>
-                <button className="relative bg-blue-600 text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-full shadow-lg hover:shadow-2xl hover:bg-blue-700 transition-all duration-300 group overflow-hidden">
-                  <span className="relative z-10">{slide.button}</span>
+
+                <button className="relative bg-blue-600 text-white font-semibold px-5 sm:px-7 md:px-8 py-2 sm:py-3 rounded-full shadow-lg hover:shadow-2xl hover:bg-blue-700 transition-all duration-300 group overflow-hidden">
+                  <span className="relative z-10 text-sm sm:text-base">
+                    {slide.button}
+                  </span>
                   <span className="absolute inset-0 bg-white/20 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></span>
                 </button>
               </div>
@@ -66,9 +67,11 @@ const Hero = () => {
       </Swiper>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2">
-        <div className="text-white text-sm font-medium animate-bounce">Scroll Down</div>
-        <div className="w-[2px] h-8 bg-white rounded-full animate-scrollLine"></div>
+      <div className="absolute bottom-4 sm:bottom-6 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-1 sm:gap-2">
+        <div className="text-white text-[10px] sm:text-sm font-medium animate-bounce">
+          Scroll Down
+        </div>
+        <div className="w-[2px] h-6 sm:h-8 bg-white rounded-full animate-scrollLine"></div>
       </div>
 
       {/* Animations */}
@@ -78,26 +81,20 @@ const Hero = () => {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
           }
-          .animate-float {
-            animation: float 4s ease-in-out infinite;
-          }
+          .animate-float { animation: float 4s ease-in-out infinite; }
 
           @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
           }
-          .animate-fadeIn {
-            animation: fadeIn 1.2s ease-in-out;
-          }
+          .animate-fadeIn { animation: fadeIn 1.2s ease-in-out; }
 
           @keyframes scrollLine {
             0% { transform: scaleY(0); opacity: 0.4; }
             50% { transform: scaleY(1); opacity: 1; }
             100% { transform: scaleY(0); opacity: 0.4; }
           }
-          .animate-scrollLine {
-            animation: scrollLine 2s infinite;
-          }
+          .animate-scrollLine { animation: scrollLine 2s infinite; }
         `}
       </style>
     </section>

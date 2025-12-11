@@ -1,6 +1,5 @@
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-//import { useAuth } from "../hooks/useAuth"; // তোমার auth hook
 
 const DashboardLayout = () => {
   const { user } = useAuth();
@@ -10,34 +9,38 @@ const DashboardLayout = () => {
     <div className="drawer lg:drawer-open">
       <input id="dashboard-drawer" type="checkbox" className="drawer-toggle" />
 
-      {/* ✅ Main Content */}
+      {/* ================= MAIN CONTENT AREA ================= */}
       <div className="drawer-content flex flex-col">
-        {/* ✅ Navbar */}
+
+        {/* 🔹 NAVBAR */}
         <div className="navbar bg-base-200 shadow">
           <div className="flex-none lg:hidden">
             <label htmlFor="dashboard-drawer" className="btn btn-square btn-ghost">
               ☰
             </label>
           </div>
-          <div className="flex-1 px-4 font-bold">
+
+          <div className="flex-1 px-4 font-bold text-lg">
             Online Ticket Booking Dashboard
           </div>
-          <div>
-            <span className="mr-4">{user?.email}</span>
+
+          <div className="flex items-center gap-3">
+            <span>{user?.email}</span>
+
             <img
-              src={user?.photoURL}
-              className="w-10 h-10 rounded-full"
+              src={user?.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
+              className="w-10 h-10 rounded-full border"
             />
           </div>
         </div>
 
-        {/* ✅ Page Content */}
+        {/* 🔹 Page Load Area */}
         <div className="p-4 min-h-screen bg-base-100">
           <Outlet />
         </div>
       </div>
 
-      {/* ✅ Sidebar */}
+      {/* ================= SIDEBAR >>> LEFT MENU ================= */}
       <div className="drawer-side">
         <label htmlFor="dashboard-drawer" className="drawer-overlay"></label>
 
@@ -46,14 +49,14 @@ const DashboardLayout = () => {
 
           <ul className="menu space-y-2">
 
-            {/* ✅ Common */}
+            {/* COMMON LINK */}
             <li>
               <NavLink to="/" className="font-semibold">
                 🏠 Home
               </NavLink>
             </li>
 
-            {/* ================= USER ================= */}
+            {/* ::::::::::::::::: USER ROLE ::::::::::::::::: */}
             {role === "user" && (
               <>
                 <li>
@@ -76,7 +79,7 @@ const DashboardLayout = () => {
               </>
             )}
 
-            {/* ================= VENDOR ================= */}
+            {/* ::::::::::::::::: VENDOR ROLE ::::::::::::::::: */}
             {role === "vendor" && (
               <>
                 <li>
@@ -111,7 +114,7 @@ const DashboardLayout = () => {
               </>
             )}
 
-            {/* ================= ADMIN ================= */}
+            {/* ::::::::::::::::: ADMIN ROLE ::::::::::::::::: */}
             {role === "admin" && (
               <>
                 <li>
@@ -122,7 +125,7 @@ const DashboardLayout = () => {
 
                 <li>
                   <NavLink to="/dashboard/manage-tickets">
-                    ✅ Manage Tickets
+                    📝 Manage Tickets
                   </NavLink>
                 </li>
 
@@ -139,6 +142,7 @@ const DashboardLayout = () => {
                 </li>
               </>
             )}
+
           </ul>
         </aside>
       </div>
