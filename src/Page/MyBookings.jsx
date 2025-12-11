@@ -1,91 +1,74 @@
 import { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export default function MyBookings() {
+export default function MyBookingsList() {
   const [bookings, setBookings] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("https://online-ticket-booking-server-side.vercel.app/booking")
       .then((res) => res.json())
-      .then((data) => {
-        setBookings(data);
-        setLoading(false);
-      });
+      .then((data) => setBookings(data));
   }, []);
 
-  if (loading)
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center text-white">
-        Loading your bookings...
-      </div>
-    );
+  const handleDelete = async (id) => {
+    const confirmDelete = confirm("Are you sure you want to delete?");
+    if (!confirmDelete) return;
+
+    try {
+      const res = await fetch(
+        `https://online-ticket-booking-server-side.vercel.app/booking/${id}`,
+        { method: "DELETE" }
+      );
+
+      const data = await res.json();
+
+      if (data.deletedCount > 0) {
+        toast.success("Booking Deleted Successfully!", { position: "top-right" });
+
+        setBookings(bookings.filter((item) => item._id !== id));
+      }
+    } catch (error) {
+      toast.error("Delete Failed!", { position: "top-right" });
+    }
+  };
 
   return (
-    <section className="bg-gradient-to-br from-[#020617] to-[#0f172a] min-h-screen py-16 px-6 text-white">
-      <div className="max-w-5xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">My Bookings</h1>
+    <div className="min-h-screen bg-gray-950 text-white p-10">
+      <ToastContainer />
 
-        {bookings.length === 0 ? (
-          <div className="text-center mt-20 text-gray-400 text-xl">
-            You have no bookings yet.
+      <h1 className="text-3xl font-bold mb-8 text-center">My Bookings</h1>
+
+      {bookings.length === 0 && (
+        <p className="text-gray-400 text-center">No bookings found</p>
+      )}
+
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {bookings.map((item) => (
+          <div
+            key={item._id}
+            className="bg-white/10 p-5 rounded-xl border border-white/10 shadow-xl backdrop-blur-md hover:scale-[1.02] transition"
+          >
+            <h2 className="text-xl font-bold">{item.ticketTitle}</h2>
+            <p className="text-gray-300">
+              {item.from} → {item.to}
+            </p>
+
+            <p className="mt-1">Seats: <span className="font-semibold">{item.seats}</span></p>
+
+            <p className="text-yellow-400 mt-1">
+              Status: <span className="font-semibold">{item.status}</span>
+            </p>
+
+            <button
+              onClick={() => handleDelete(item._id)}
+              className="mt-4 w-full py-2 bg-red-600 hover:bg-red-700 rounded-lg font-medium"
+            >
+              Remove
+            </button>
           </div>
-        ) : (
-          <div className="grid md:grid-cols-2 gap-6">
-            {bookings.map((b) => (
-              <div
-                key={b._id}
-                className="bg-white/10 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-lg"
-              >
-                <h2 className="text-xl font-semibold text-blue-400 mb-1">
-                  {b.title}
-                </h2>
-                <p className="text-gray-300 text-sm mb-2">
-                  {b.from} → {b.to}
-                </p>
-
-                <div className="text-gray-300 space-y-1">
-                  <p>
-                    <span className="text-gray-400">Name:</span> {b.name}
-                  </p>
-                  <p>
-                    <span className="text-gray-400">Email:</span> {b.email}
-                  </p>
-                  <p>
-                    <span className="text-gray-400">Phone:</span> {b.phone}
-                  </p>
-                  <p>
-                    <span className="text-gray-400">Seats:</span> {b.seats}
-                  </p>
-                  <p>
-                    <span className="text-gray-400">Price:</span>{" "}
-                    <span className="text-green-400 font-bold">
-                      ৳{b.price}
-                    </span>
-                  </p>
-                  <p>
-                    <span className="text-gray-400">Status:</span>{" "}
-                    <span
-                      className={`${
-                        b.status === "pending"
-                          ? "text-yellow-400"
-                          : b.status === "approved"
-                          ? "text-green-400"
-                          : "text-red-400"
-                      } font-semibold`}
-                    >
-                      {b.status || "pending"}
-                    </span>
-                  </p>
-                </div>
-
-                <p className="mt-3 text-xs text-gray-400">
-                  Booking Date: {new Date(b.date).toLocaleString()}
-                </p>
-              </div>
-            ))}
-          </div>
-        )}
+        ))}
       </div>
-    </section>
+    </div>
   );
 }

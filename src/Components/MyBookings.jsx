@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 
 export default function MyBookings() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [ticket, setTicket] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -25,24 +27,40 @@ export default function MyBookings() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Booking Completed Successfully! (Demo)");
+
+    const bookingData = {
+      ticketId: id,
+      ticketTitle: ticket.title,
+      from: ticket.from,
+      to: ticket.to,
+      seats: formData.seats,
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      status: "Pending",
+    };
+
+    try {
+      await fetch("https://online-ticket-booking-server-side.vercel.app/booking", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bookingData),
+      });
+
+      alert("Booking Successful!");
+      navigate("/my-bookings"); // redirect to booking list
+    } catch (error) {
+      alert("Booking Failed!");
+    }
   };
 
   if (loading)
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center text-white">
-        Loading...
-      </div>
-    );
+    return <div className="min-h-[60vh] flex items-center justify-center text-white">Loading...</div>;
 
   if (error)
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center text-red-500">
-        {error}
-      </div>
-    );
+    return <div className="min-h-[60vh] flex items-center justify-center text-red-500">{error}</div>;
 
   return (
     <section className="bg-gradient-to-br from-[#020617] to-[#0f172a] min-h-screen py-16 px-6 text-white">
@@ -63,12 +81,13 @@ export default function MyBookings() {
               {ticket.from} → {ticket.to}
             </p>
             <p className="mt-2">
-              Price:{" "}
-              <span className="text-blue-400 font-bold">৳{ticket.price}</span>
+              Price: <span className="text-blue-400 font-bold">৳{ticket.price}</span>
             </p>
           </div>
 
+          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
+
             <div>
               <label className="block mb-1 text-gray-300">Full Name</label>
               <input
@@ -106,9 +125,7 @@ export default function MyBookings() {
             </div>
 
             <div>
-              <label className="block mb-1 text-gray-300">
-                Number of Seats
-              </label>
+              <label className="block mb-1 text-gray-300">Number of Seats</label>
               <input
                 type="number"
                 min="1"
@@ -120,6 +137,7 @@ export default function MyBookings() {
               />
             </div>
 
+            {/* ❗ BUTTON FIXED */}
             <button
               type="submit"
               className="w-full py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold shadow-lg"
