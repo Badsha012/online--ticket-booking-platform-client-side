@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_apiKey,
@@ -7,16 +8,19 @@ const firebaseConfig = {
   projectId: import.meta.env.VITE_projectId,
   storageBucket: import.meta.env.VITE_storageBucket,
   messagingSenderId: import.meta.env.VITE_messagingSenderId,
-  appId: import.meta.env.VITE_appId,
+  appId: import.meta.env.VITE_appId
 };
 
-// ✅ Initialize Firebase
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// ✅ Firebase Auth
+// Firebase Auth
 export const auth = getAuth(app);
 
-// ✅ Google Provider
+// Google Login Provider
 export const googleProvider = new GoogleAuthProvider();
+
+// 🔥 Firestore (MUST for roles)
+export const db = getFirestore(app);
 
 export default app;

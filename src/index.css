@@ -95,3 +95,8 @@
 
 
 
+.active-link {
+  background-color: #dbeafe !important; /* blue-100 */
+  color: #1e40af !important;            /* blue-700 */
+  border-left: 4px solid #1e40af;
+}

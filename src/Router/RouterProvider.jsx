@@ -1,13 +1,15 @@
-import DashboardLayout from "../Components/Dashboard/DashboardLayout";
-import UserProfile from "../Components/Dashboard/UserProfile";
 
 import PrivateRoute from "../Components/PrivateRoute";
+import DashboardLayout from "../Layout/Dashboard/DashboardLayout";
 import About from "../Page/About";
 import Contact from "../Page/Contact";
+import UserBooking from "../Page/Dashboardpage/User/UserBooking";
+import UserProfile from "../Page/Dashboardpage/User/UserProfile";
 import Home from "../Page/Home";
 import Login from "../Page/Login";
 import MyBookingPage from "../Page/MyBookingPage";
-import MyBookings from "../Page/MyBookings"; // ✅ Added
+import MyBookings from "../Page/MyBookings";
+//import MyBookings from "../Page/MyBookings"; // ✅ Added
 import Register from "../Page/Register";
 import TicketDetails from "../Page/TicketDetails";
 import TicketsList from "../Page/TicketsList";
@@ -80,18 +82,16 @@ const router = createBrowserRouter([
   // Dashboard
   {
     path: "/dashboard",
-    element: (
-      <PrivateRoute>
-        <DashboardLayout />
-      </PrivateRoute>
-    ),
-    children: [
+    element: <DashboardLayout />,
+      children: [
       {
         path: "profile",
         element: <UserProfile />,
       },
       {
-        path:"mybookingticket",
+        path:"my-bookings",
+        element:<UserBooking></UserBooking>,
+
         
       }
     ],

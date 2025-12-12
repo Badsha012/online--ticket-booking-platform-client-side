@@ -6,7 +6,7 @@ import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter, FaCcPaypal, FaCcMasterc
 const Footer = () => {
   return (
     <footer className="mt1 py-10 bg-[#011638] text-white">
-      <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-4 gap-10">
+      <div className="max-w-9xl mx-auto px-6 grid md:grid-cols-4 gap-10">
 
         {/* Column 1: Logo + Description */}
         <div>
