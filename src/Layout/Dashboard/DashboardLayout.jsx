@@ -1,129 +1,124 @@
 // DashboardLayout.jsx
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { LogOut, Home, User, Ticket, CreditCard, Briefcase, PlusCircle, Package, FileText, BarChart3, Shield, Users, Megaphone } from "lucide-react";
 
 const DashboardLayout = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const role = user?.role;
 
+  const linkClass = ({ isActive }) =>
+    `flex items-center gap-3 px-4 py-2 rounded-xl transition ${
+      isActive
+        ? "bg-blue-600 text-white shadow"
+        : "text-gray-600 hover:bg-blue-50 hover:text-blue-700"
+    }`;
+
   return (
-    <div className="drawer lg:drawer-open bg-base-200 min-h-screen">
+    <div className="drawer lg:drawer-open min-h-screen bg-gray-100">
       <input id="dashboard-drawer" type="checkbox" className="drawer-toggle" />
 
-      {/* MAIN CONTENT AREA */}
-      <div className="drawer-content flex flex-col min-h-screen">
-        {/* Navbar */}
-        <div className="navbar bg-white shadow-md sticky top-0 z-50">
-          {/* Drawer button for mobile */}
+      {/* MAIN */}
+      <div className="drawer-content flex flex-col">
+        {/* TOP NAV */}
+        <header className="navbar bg-white border-b sticky top-0 z-50 px-4">
           <div className="flex-none lg:hidden">
-            <label
-              htmlFor="dashboard-drawer"
-              className="btn btn-square btn-ghost text-2xl"
-            >
-              ☰
-            </label>
+            <label htmlFor="dashboard-drawer" className="btn btn-ghost btn-square">☰</label>
           </div>
 
-          {/* Title */}
-          <div className="flex-1 px-4 font-bold text-lg text-blue-700">
-            Online Booking Ticket Dashboard
+          <div className="flex-1">
+            <h1 className="text-xl font-semibold text-gray-800">Ticket Booking Dashboard</h1>
           </div>
 
-          {/* User Section */}
-          <div className="flex items-center gap-3 pr-4">
-            <span>{user?.email}</span>
+          <div className="flex items-center gap-3">
+            <span className="hidden md:block text-sm text-gray-600">{user?.email}</span>
+            <span className="badge badge-outline capitalize">{role}</span>
             <img
               src={user?.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
-              className="w-10 h-10 rounded-full border"
-              alt="User Avatar"
+              alt="avatar"
+              className="w-9 h-9 rounded-full border"
             />
+            <button onClick={logout} className="btn btn-sm btn-outline gap-2">
+              <LogOut size={16} /> Logout
+            </button>
           </div>
-        </div>
+        </header>
 
-        {/* Outlet Content */}
-        <div className="p-5 bg-base-100 flex-1 min-h-screen">
+        {/* PAGE CONTENT */}
+        <main className="p-6 flex-1">
           <Outlet />
-        </div>
+        </main>
       </div>
 
       {/* SIDEBAR */}
-      <div className="drawer-side h-full min-h-screen">
+      <div className="drawer-side">
         <label htmlFor="dashboard-drawer" className="drawer-overlay"></label>
 
-        <aside className="w-64 bg-white p-6 h-full min-h-screen overflow-y-auto shadow-md">
-          <h2 className="text-xl font-bold text-blue-700 mb-5">Navigation</h2>
+        <aside className="w-72 bg-white border-r min-h-screen px-4 py-6">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-blue-600">Dashboard</h2>
+            <p className="text-sm text-gray-500">Welcome back 👋</p>
+          </div>
 
-          <ul className="menu space-y-2">
-            <li>
-              <NavLink to="/">🏠 Home</NavLink>
-            </li>
+          <nav className="space-y-2">
+            <NavLink to="/" className={linkClass}>
+              <Home size={18} /> Home
+            </NavLink>
 
-            {/* USER NAVIGATION */}
+            {/* USER */}
             {role === "user" && (
               <>
-                <li>
-                  <NavLink to="/dashboard/profile">👤 User Profile</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/dashboard/my-bookings">
-                    🎫 My Booked Tickets
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/dashboard/transactions">💳 Transactions</NavLink>
-                </li>
+                <NavLink to="/dashboard/profile" className={linkClass}>
+                  <User size={18} /> Profile
+                </NavLink>
+                <NavLink to="/dashboard/my-bookings" className={linkClass}>
+                  <Ticket size={18} /> My Bookings
+                </NavLink>
+                <NavLink to="/dashboard/transactions" className={linkClass}>
+                  <CreditCard size={18} /> Transactions
+                </NavLink>
               </>
             )}
 
-            {/* VENDOR NAVIGATION */}
+            {/* VENDOR */}
             {role === "vendor" && (
               <>
-                <li>
-                  <NavLink to="/dashboard/vendor-profile">
-                    🧑‍💼 Vendor Profile
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/dashboard/add-ticket">➕ Add Ticket</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/dashboard/my-tickets">📦 My Tickets</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/dashboard/requested-bookings">
-                    📑 Requested Bookings
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/dashboard/revenue">📊 Revenue</NavLink>
-                </li>
+                <NavLink to="/dashboard/vendor-profile" className={linkClass}>
+                  <Briefcase size={18} /> Vendor Profile
+                </NavLink>
+                <NavLink to="/dashboard/add-ticket" className={linkClass}>
+                  <PlusCircle size={18} /> Add Ticket
+                </NavLink>
+                <NavLink to="/dashboard/my-tickets" className={linkClass}>
+                  <Package size={18} /> My Tickets
+                </NavLink>
+                <NavLink to="/dashboard/requested-bookings" className={linkClass}>
+                  <FileText size={18} /> Requests
+                </NavLink>
+                <NavLink to="/dashboard/revenue" className={linkClass}>
+                  <BarChart3 size={18} /> Revenue
+                </NavLink>
               </>
             )}
 
-            {/* ADMIN NAVIGATION */}
+            {/* ADMIN */}
             {role === "admin" && (
               <>
-                <li>
-                  <NavLink to="/dashboard/admin-profile">
-                    🛡 Admin Profile
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/dashboard/manage-tickets">
-                    📝 Manage Tickets
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/dashboard/manage-users">
-                    👥 Manage Users
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/dashboard/advertise">📢 Advertise</NavLink>
-                </li>
+                <NavLink to="/dashboard/admin-profile" className={linkClass}>
+                  <Shield size={18} /> Admin Profile
+                </NavLink>
+                <NavLink to="/dashboard/manage-tickets" className={linkClass}>
+                  <Ticket size={18} /> Manage Tickets
+                </NavLink>
+                <NavLink to="/dashboard/manage-users" className={linkClass}>
+                  <Users size={18} /> Manage Users
+                </NavLink>
+                <NavLink to="/dashboard/advertise" className={linkClass}>
+                  <Megaphone size={18} /> Advertise
+                </NavLink>
               </>
             )}
-          </ul>
+          </nav>
         </aside>
       </div>
     </div>
