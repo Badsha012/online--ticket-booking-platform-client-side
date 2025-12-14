@@ -4,6 +4,7 @@ import DashboardLayout from "../Layout/Dashboard/DashboardLayout";
 import About from "../Page/About";
 import Contact from "../Page/Contact";
 import UserBooking from "../Page/Dashboardpage/User/UserBooking";
+import UserDashboardHome from "../Page/Dashboardpage/User/UserDashboardHome";
 import UserProfile from "../Page/Dashboardpage/User/UserProfile";
 import Home from "../Page/Home";
 import Login from "../Page/Login";
@@ -84,16 +85,19 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: <DashboardLayout />,
       children: [
+        {
+          index:true,
+          element:<UserDashboardHome></UserDashboardHome>,
+        },
       {
         path: "profile",
         element: <UserProfile />,
       },
       {
         path:"my-bookings",
-        element:<UserBooking></UserBooking>,
-
-        
-      }
+        element:<UserBooking></UserBooking>,  
+      },
+      
     ],
   },
 ]);

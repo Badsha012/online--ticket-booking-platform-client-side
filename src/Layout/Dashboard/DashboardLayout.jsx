@@ -15,13 +15,13 @@ const DashboardLayout = () => {
     }`;
 
   return (
-    <div className="drawer lg:drawer-open min-h-screen bg-gray-100">
+    <div className="drawer lg:drawer-open min-h-screen bg-slate-100">
       <input id="dashboard-drawer" type="checkbox" className="drawer-toggle" />
 
       {/* MAIN */}
       <div className="drawer-content flex flex-col">
         {/* TOP NAV */}
-        <header className="navbar bg-white border-b sticky top-0 z-50 px-4">
+        <header className="navbar bg-white/80 backdrop-blur border-b sticky top-0 z-50 px-4">
           <div className="flex-none lg:hidden">
             <label htmlFor="dashboard-drawer" className="btn btn-ghost btn-square">☰</label>
           </div>
@@ -45,7 +45,7 @@ const DashboardLayout = () => {
         </header>
 
         {/* PAGE CONTENT */}
-        <main className="p-6 flex-1">
+        <main className="p-6 flex-1 bg-slate-50">
           <Outlet />
         </main>
       </div>
@@ -54,10 +54,10 @@ const DashboardLayout = () => {
       <div className="drawer-side">
         <label htmlFor="dashboard-drawer" className="drawer-overlay"></label>
 
-        <aside className="w-72 bg-white border-r min-h-screen px-4 py-6">
+        <aside className="w-72 bg-white min-h-screen px-4 py-6 shadow-lg">
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-blue-600">Dashboard</h2>
-            <p className="text-sm text-gray-500">Welcome back 👋</p>
+            <p className="text-sm text-gray-500">Welcome back</p>
           </div>
 
           <nav className="space-y-2">
