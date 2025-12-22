@@ -14,8 +14,6 @@ const Navbar = () => {
       setUser(currentUser);
 
       if (currentUser) {
-        toast.success(" Login successful");
-
         try {
           const res = await fetch(
             `https://online-ticket-booking-server-side.vercel.app/users/${currentUser.email}`
@@ -35,7 +33,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     await signOut(auth);
-    toast.error(" Logout successful");
+    toast.success("Logout successful");
   };
 
   const getDashboardPath = () => {
@@ -44,6 +42,12 @@ const Navbar = () => {
     if (role === "admin") return "/dashboard/admin-profile";
     return "/dashboard";
   };
+
+  // ✅ Active link style
+  const navClass = ({ isActive }) =>
+    isActive
+      ? "text-blue-400 font-semibold border-b-2 border-blue-400"
+      : "hover:text-blue-300";
 
   return (
     <div
@@ -67,10 +71,7 @@ const Navbar = () => {
               className="w-10 h-10 rounded-full"
               alt="logo"
             />
-            <NavLink
-              to="/"
-              className="hidden lg:block md:text-2xl font-semibold text-blue-400"
-            >
+            <NavLink to="/" end className="hidden lg:block text-2xl font-semibold text-blue-400">
               Online Ticket Booking
             </NavLink>
           </div>
@@ -78,15 +79,15 @@ const Navbar = () => {
 
         {/* DESKTOP MENU */}
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 text-lg font-medium">
-            <li><NavLink to="/" className="hover:text-blue-300">Home</NavLink></li>
-            <li><NavLink to="/ticket" className="hover:text-blue-300">Tickets</NavLink></li>
-            <li><NavLink to="/about" className="hover:text-blue-300">About</NavLink></li>
-            <li><NavLink to="/contact" className="hover:text-blue-300">Contact</NavLink></li>
+          <ul className="menu menu-horizontal px-1 text-lg font-medium gap-6">
+            <li><NavLink to="/" end className={navClass}>Home</NavLink></li>
+            <li><NavLink to="/ticket" className={navClass}>Tickets</NavLink></li>
+            <li><NavLink to="/about" className={navClass}>About</NavLink></li>
+            <li><NavLink to="/contact" className={navClass}>Contact</NavLink></li>
 
             {user && (
               <li>
-                <NavLink to="/my-bookings" className="hover:text-blue-300">
+                <NavLink to="/my-bookings" className={navClass}>
                   My Booking
                 </NavLink>
               </li>
@@ -104,7 +105,7 @@ const Navbar = () => {
                 alt="user"
               />
 
-              <span className="hidden md:block">
+              <span className="hidden md:block text-sm">
                 {user.displayName || user.email}
               </span>
 
@@ -144,19 +145,15 @@ const Navbar = () => {
       {/* MOBILE MENU */}
       {isOpen && (
         <div className="lg:hidden bg-[#011638] px-6 py-4 space-y-3">
-          <NavLink to="/" className="block hover:text-blue-400">Home</NavLink>
-          <NavLink to="/ticket" className="block hover:text-blue-400">Tickets</NavLink>
-          <NavLink to="/about" className="block hover:text-blue-400">About</NavLink>
-          <NavLink to="/contact" className="block hover:text-blue-400">Contact</NavLink>
+          <NavLink to="/" end className={navClass}>Home</NavLink>
+          <NavLink to="/ticket" className={navClass}>Tickets</NavLink>
+          <NavLink to="/about" className={navClass}>About</NavLink>
+          <NavLink to="/contact" className={navClass}>Contact</NavLink>
 
           {user && (
             <>
-              <NavLink to="/my-bookings" className="block hover:text-blue-400">
-                My Booking
-              </NavLink>
-              <NavLink to={getDashboardPath()} className="block hover:text-blue-400">
-                Dashboard
-              </NavLink>
+              <NavLink to="/my-bookings" className={navClass}>My Booking</NavLink>
+              <NavLink to={getDashboardPath()} className={navClass}>Dashboard</NavLink>
             </>
           )}
         </div>
